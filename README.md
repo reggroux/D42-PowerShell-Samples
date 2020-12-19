@@ -1,12 +1,14 @@
-# D42-PowerShell-Samples
-Example script for running Windows PowerShell scripts against the Device42 API's
+# D42-PowerShell-Samples Encrypted
+Example script for running Windows PowerShell scripts against the Device42 API's. Forked from: https://github.com/device42/D42-PowerShell-Samples . I didn't want my Username and Password in Plaintext of the script so figure I would post this incase anyone is in the same boat as me.
 
 
 ## Sample GET call using PowerShell
 ```
-$d42_username = "d42_user"
-$d42_password = "d42_password"
-$d42_headers = @{"Authorization" = "Basic "+[System.Convert]::ToBase64String([System.Text.Encoding]::UTF8.GetBytes($d42_username+":"+$d42_password ))}
+$D42Credentials = Get-Credential -Credential $null
+$D42User = $D42Credentials.UserName
+$D42Credentials.Password | ConvertFrom-SecureString
+$D42Password = $D42Credentials.GetNetworkCredential().password
+$d42_headers = @{"Authorization" = "Basic "+[System.Convert]::ToBase64String([System.Text.Encoding]::UTF8.GetBytes($D42User+":"+$D42Password ))}
 $d42_url = "https://d42_url/api/1.0/devices/id/10482/"
 
 
@@ -22,12 +24,14 @@ try {
 }
 ```
 
-## Sample POST call using PowerShell
+## Sample POST call using PowerShell Encrypted
 
 ```
-$d42_username = "d42_user"
-$d42_password = "d42_password"
-$d42_headers = @{"Authorization" = "Basic "+[System.Convert]::ToBase64String([System.Text.Encoding]::UTF8.GetBytes($d42_username+":"+$d42_password ))}
+$D42Credentials = Get-Credential -Credential $null
+$D42User = $D42Credentials.UserName
+$D42Credentials.Password | ConvertFrom-SecureString
+$D42Password = $D42Credentials.GetNetworkCredential().password
+$d42_headers = @{"Authorization" = "Basic "+[System.Convert]::ToBase64String([System.Text.Encoding]::UTF8.GetBytes($D42User+":"+$D42Password ))}
 $d42_url = "https://d42_url/api/1.0/devices/"
 try {
    $pos_data = "uuid=$($json.uuid)&notes=Updated from PowerShell"
@@ -46,9 +50,11 @@ catch {
 ## Sample PUT call using PowerShell
 
 ```
-$d42_username = "d42_user"
-$d42_password = "d42_password"
-$d42_headers = @{"Authorization" = "Basic "+[System.Convert]::ToBase64String([System.Text.Encoding]::UTF8.GetBytes($d42_username+":"+$d42_password ))}
+$D42Credentials = Get-Credential -Credential $null
+$D42User = $D42Credentials.UserName
+$D42Credentials.Password | ConvertFrom-SecureString
+$D42Password = $D42Credentials.GetNetworkCredential().password
+$d42_headers = @{"Authorization" = "Basic "+[System.Convert]::ToBase64String([System.Text.Encoding]::UTF8.GetBytes($D42User+":"+$D42Password ))}
 $d42_url = "https://d42_url/api/1.0/device/custom_field/"
 try {
    $pos_data = "name=device_name&key=key_test&value=value_test"
